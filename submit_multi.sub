@@ -1,0 +1,29 @@
+container_image = docker://huangzhu/chtc:1.0
+universe = container
+
+log = job-$(Cluster).log
+error = job-$(Cluster).out
+output = job-$(Cluster).out
+
+SCRIPT_BASE_NAME = executable
+SCRIPT = $(SCRIPT_BASE_NAME).sh
+transfer_input_files = $(SCRIPT)
+executable = $(SCRIPT)
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+requirements = (Target.HasCHTCStaging == true)
+
++WantGPULab = true
++GPUJobLength = "short"
++is_resumable = false
+
+request_gpus = 1
+require_gpus = (Capability == $(COMP_CAP))
+
+request_cpus = 1
+request_memory = 4GB
+request_disk = 4GB
+
+queue COMP_CAP from jobs.txt
+
