@@ -64,14 +64,14 @@ cd ${HOME}/benchmarks/
 condor_submit -i submit_single.sub
 ```
 <p align="center">
-  <img width="600" src=https://github.com/user-attachments/assets/2f59b3e8-b78c-4d79-a185-bbb39980cfff>
+  <img width="600" src=https://github.com/user-attachments/assets/f3bdb275-e126-4fed-88cd-f8ae5b5a731c>
 </p>
 
-You should see something like the screenshot above. The "mobile filesystem" can be seen from ``slot3/dir_1890475`` which will be different for every Cluster/Process. We can also see from the hostname that we were assigned the ``vetsigian0001`` server. 
+You should see something like the screenshot above. The "mobile filesystem" can be seen from ``slot3/dir_2558735`` which will be different for every Cluster/Process. We can also see from the hostname that we were assigned the ``vetsigian0001`` server. 
 
 Right now, we are inside the Docker container image. The image was built with all software compiled into ``/usr/local/``, so we can take a look at what's available. By echoing the ``$PATH``, we can see that the binaries have been exported so we can just call on them (*i.e.*, ``gmx --version``, ``gmx_mpi --version``, ``plumed help``, ``packmol --version``, ``acpype --version``, ``wham``, ``wham-2d``, etc...). Notice that both thread-MPI and MPI versions of GROMACS are available without sourcing one or the other.
 <p align="center">
-  <img width="600" src=https://github.com/user-attachments/assets/b5fe53f7-1021-45cf-bcdc-2886e7e64176>
+  <img width="600" src=https://github.com/user-attachments/assets/7048c5a0-da96-409a-8fe7-4216f0e2e369>
 </p>
 
 We will now open up the ``executable.sh`` file on our computers and run line by line as if you were typing it in. This way, we can identify specific lines that are triggering errors (if any). 
@@ -89,10 +89,10 @@ ls ${STAGING}/benchmarks/
 cat ${STAGING}/benchmarks/gromacs_chtc_1xNVIDIA_GeForce_RTX_2080_Ti_2024-07-26.csv
 ```
 <p align="center">
-  <img width="800" src=https://github.com/user-attachments/assets/eb7ff0a9-c503-4474-847c-664aeca50cb0>
+  <img width="800" src=https://github.com/user-attachments/assets/42e864a2-e493-4caf-9b8a-60da55c3d1ca>
 </p>
 
-After running line by line, I like to comment out the purge line from the executable (``rm -r ${SCRATC}/*``) and bash the script to replicate how Condor would run it when the job is submitted non-interactively.
+After running line by line, I like to comment out the purge line from the executable (``rm -r ${SCRATCH}/*``) and bash the script to replicate how Condor would run it when the job is submitted non-interactively. The commands would be the following, but I won't run them now.
 ```
 cd ${HOME}/benchmarks/
 condor_submit -i submit_single.sub
@@ -114,7 +114,24 @@ condor_submit submit_multi.sub
 ```
 
 <p align="center">
-  <img width="600" src=https://github.com/user-attachments/assets/ef3b4d33-0aec-4afd-94bc-24df3106d8df>
+  <img width="600" src=https://github.com/user-attachments/assets/e438ab3c-edbf-4924-86fa-5a8746f50b02>
 </p>
 
-As seen from the screenshot above, the job is run in a single Cluster (``399983``), but with four Processes (``.0-.3``). Once all four jobs finish, you should see the metafile from each job inside your ``${STAGING}/benchmarks/`` directory.
+As seen from the screenshot above, the job is run in a single Cluster (``400278``), but with four Processes (``.0-.3``). These can take minutes or even hours to start depending on the queue.
+
+Once all four jobs finish, you should see the metafile from each job inside your ``${STAGING}/benchmarks/`` directory. In my case, we can see that our previous 2080 Ti benchmark was overwritten since 
+
+<p align="center">
+  <img width="800" src=>
+</p>
+
+
+
+
+
+
+
+
+
+
+
