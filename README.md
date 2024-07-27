@@ -92,6 +92,17 @@ cat ${STAGING}/benchmarks/gromacs_chtc_1xNVIDIA_GeForce_RTX_2080_Ti_2024-07-26.c
   <img width="800" src=https://github.com/user-attachments/assets/eb7ff0a9-c503-4474-847c-664aeca50cb0>
 </p>
 
+After running line by line, I like to comment out the purge line from the executable (``rm -r ${SCRATC}/*``) and bash the script to replicate how Condor would run it when the job is submitted non-interactively.
+```
+cd ${HOME}/benchmarks/
+condor_submit -i submit_single.sub
+### COMMENT OUT rm -r ${SCRATCH}/*
+bash executable.sh
+### CHECK IF OUTPUTS ARE CREATED.
+##### IF CREATED, CONTINUE
+##### IF NOT CREATED, DEBUG EXECUTABLE
+rm -r ${SCRATCH}/*
+```
 
 
 
