@@ -7,7 +7,7 @@ We will run GROMACS 2021.5 benchmarks on HTC in two ways:
 - A single job (Process) is submitted to a single node (Cluster), running a single instance of the executable script. Will show up as ``JOBID 000.0``.
 
 (2) Single Cluster - Multi Process Job:
-- Multiple "sub-jobs" (Process) are submitted to multiple nodes (Cluster). Condor considers multiple nodes a Cluster, while jobs that are running on the Cluster (on different nodes) are different Processes. Will show up as ``JOBID 000.0``, ``JOBID 000.1``, etc... for howevery many Processes you requested.
+- Multiple "sub-jobs" (Process) are submitted to multiple nodes (Cluster). Condor considers multiple nodes a Cluster, while jobs that are running on the Cluster (on different nodes) are different Processes. Will show up as ``JOBID 000.0``, ``JOBID 000.1``, etc... for however many Processes you requested.
 
 We will be using a Docker container to run GROMACS on HTC. You can alternatively use Singularity, but I don't have experience with running Singularity on HTC. The container we'll be using is the ``huangzhu/chtc:1.0`` image from my hub (https://hub.docker.com/r/huangzhu). You can find the contained software by following the link and clicking on ``huangzhu/chtc``.
 
