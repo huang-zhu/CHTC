@@ -23,6 +23,16 @@ First, we have to clone this repository into our ``$HOME`` directory.
 ```
 mkdir -p ${HOME}/benchmarks/
 git clone https://github.com/huang-zhu/CHTC -b benchmarks ${HOME}/benchmarks/
+
+### EXPECTED OUTPUT:
+# git clone https://github.com/huang-zhu/CHTC -b benchmarks ${HOME}/benchmarks
+# Cloning into '/home/huangzhu/benchmarks'...
+# remote: Enumerating objects: 31, done.
+# remote: Counting objects: 100% (31/31), done.
+# remote: Compressing objects: 100% (23/23), done.
+# remote: Total 31 (delta 6), reused 0 (delta 0), pack-reused 0
+# Receiving objects: 100% (31/31), 4.73 MiB | 9.83 MiB/s, done.
+# Resolving deltas: 100% (6/6), done.
 ```
 
 The following additional files will be included:
