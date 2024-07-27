@@ -25,5 +25,5 @@ request_cpus = 1
 request_memory = 4GB
 request_disk = 4GB
 
-queue COMP_CAP from jobs.txt
+queue COMP_CAP from jobs_multi.txt
 
