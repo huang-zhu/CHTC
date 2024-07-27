@@ -35,21 +35,23 @@ git clone https://github.com/huang-zhu/CHTC -b benchmarks ${HOME}/benchmarks/
 # Resolving deltas: 100% (6/6), done.
 ```
 
-The following additional files will be included:
+The following files will be included and are required to run GROMACS on HTC:
 - ``README.md``: Contains this same info. You can ignore/delete it.
 - ``executable.sh`` Script that will run on the assigned node. When a job is submitted, Condor basically runs ``sbatch executable.sh`` on the node (with input arguments/variables if provided).
 - ``jobs_multi.txt`` File that contains the input arguments for running multi process jobs. This is like running ``sbatch executable.sh [VAR1]``, ``sbatch executable.sh [VAR2]``, etc... for however many variables you have.
 - ``submit_multi.sub`` File that contains Condor requirements. This is analogous to the ``#SBATCH`` directives on Slurm. The ``_multi`` version reads in the rows in a helper file (``jobs_multi.txt`` in this case) as input arguments to ``executable.sh``.
 - ``submit_single.sub`` File that contains Condor requirements. This is analogous to the ``#SBATCH`` directives on Slurm. The ``_single`` doesn't read input arguments and only queues one process in one cluster.
 
-These files have to be placed in our HTC ``$STAGING`` directory. 
+I strongly encourage you to take a look at these files and try to understand them. I tried to have the executable script well-commented for readibility, but feel free to reach out if you still have questions after reading through it.
+
+The ``gromacs/`` directory contains five sub-directories, each containing the TPR files for benchmarking, and has to be moved to ``${STAGING}/benchmarks/``.
 
 ```
 mkdir -p ${STAGING}/benchmarks/
 mv ${HOME}/benchmarks/gromacs/ ${STAGING}/benchmarks/
 ```
 
-We are now ready to run the benchmarks from our ``${HOME}/benchmarks/`` directory.
+We are now ready to run the benchmarks from our ``${HOME}/benchmarks/`` directory. 
 
 ## Single Cluster - Single Process Job
 
