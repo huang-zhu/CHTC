@@ -18,11 +18,12 @@ TPR files were taken from:
 
 ## Set up files
 
-First, we have to clone this repository into our ``$HOME`` directory.
+First, we have to clone this repository into our ``$HOME`` directory and replace my username with yours.
 
 ```
 mkdir -p ${HOME}/benchmarks/
 git clone https://github.com/huang-zhu/CHTC -b benchmarks ${HOME}/benchmarks/
+sed -i s/'huangzhu'/`whoami`/g ${HOME}/benchmarks/executable.sh
 
 ### EXPECTED OUTPUT:
 # git clone https://github.com/huang-zhu/CHTC -b benchmarks ${HOME}/benchmarks
@@ -64,8 +65,26 @@ condor_submit -i submit_single.sub
 ```
 <p align="center">
   <img width="600" src=https://github.com/user-attachments/assets/2f59b3e8-b78c-4d79-a185-bbb39980cfff>
-
 </p>
 
+You should see something like the screenshot above. The "mobile filesystem" can be seen from ``slot3/dir_1890475`` which will be different for every Cluster/Process. We can also see from the hostname that we were assigned the ``vetsigian0001`` server. 
+
+Right now, we are inside the Docker container image. The image was built with all software compiled into ``/usr/local/``, so we can take a look at what's available. By echoing the ``$PATH``, we can see that the binaries have been exported so we can just call on them (*i.e.*, ``gmx --version``, ``gmx_mpi --version``, ``plumed help``, ``packmol --version``, ``acpype --version``, ``wham``, ``wham-2d``, etc...). Notice that both thread-MPI and MPI versions of GROMACS are available without sourcing one or the other.
+<p align="center">
+  <img width="600" src=https://github.com/user-attachments/assets/b5fe53f7-1021-45cf-bcdc-2886e7e64176>
+</p>
+
+We will now open up the ``executable.sh`` file on our computers and run line by line as if you were typing it in. This way, we can identify specific lines that are triggering errors (if any). 
+
+In the ``INITIALIZING JOB`` section we define the basic things needed (arguments, paths, and binaries). The way I define the binaries allows me to quickly switch between versions. Defining paths like this simplifies a lot of the code for tansferrability across multiple/different clusters. You can run this whole block of code, or line by line to see what some of the ``DEFINE ARGUMENTS`` line do (might be handy to know). 
+
+After initializing the job, we move on to the ``MAIN SCRIPT`` section. We will copy the benchmarking TPR files to our ``${WORKING_DIR}``. Directly copying files from ``${STAGING}`` into a job is *not* the most preferred way. Best practices consist of going into ``${STAGING}``, copying the files into a tarball (with a name unique to the Process you are running, *i.e.*, ``inputs_rep_0.tar``, ``inputs_rep_1.tar``, etc...), transferring the tarball to the job, removing the tarball from ``${STAGING}``, and then untarring to run the rest of the script. Since this is a very light and simple tutorial, I'm just copying the files, but don't do this for real workflows. A metafile (``results.csv``) that will contain the performance results of the benchmarked systems is then generated. We also define the output name for this metafile that contains unique information from this run 
+
+We then go into every benchmark directory using a for loop, and in each of these directories, we run the ``benchmark.tpr`` file for a short time (20,000 ps). The performance of the benchmark in ``ns/day`` and ``hr/ns`` are extracted from the LOG file and then printed into the metafile. After running all the benchmarks in the for loop, we go back into the ``${SCRATCH}`` directory and rename the metafile with the new name.
+
+After running the main script, we move on to the ``FINALIZING JOB`` section. Here, we copy the outputs back into ``${STAGING}`` and we purge the ``${SCRATCH}}`` directory. We do this clean-up process because it's best practice to delete whatever we copied into the node, that way, we are not filling up the node's local disk (although Condor does periodic purges). In addition, files (not directories) that remain in ``${SCRATCH}`` are transferred back into your ``${HOME}`` directory from where you submitted the job, which can lead to clutter and even accidental overwrites of files depending on how you write your scripts. After, purging you can just close the job by exiting.
+```
+exit
+```
 ## Single Cluster - Multi Process Job
 
