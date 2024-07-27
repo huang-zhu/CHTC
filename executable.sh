@@ -71,7 +71,6 @@ METAFILE_RESULTS_OUTPUT="$BENCHMARK_DIR"_"$HOST_NAME"_"$NUM_GPUS"x"$GPU_NAME"_"$
 if [ ! -f ${METAFILE_RESULTS} ]; then
     > ${METAFILE_RESULTS}
     printf "%-10s %-10s %-10s %-10s %-10s %-10s %-30s %-10s %-10s\n" "TEST" "NUM_MPI" "NUM_OMP" "ns/day" "hours/ns" "NGPUS" "GPU" "HOST" "NODE" >> ${METAFILE_RESULTS}
-    # echo "TEST", "NUM_MPI", "NUM_OMP", "ns/day", "hours/ns", "NGPUS", "GPU", "HOST", "NODE" >> ${METAFILE_RESULTS}
 fi
 
 ### LOOP THROUGH BENCHMARK TESTS & NUMBER OF CORES
@@ -102,7 +101,6 @@ for TEST_DIR in ${WORKING_DIR}/*/; do
 
         ### OUTPUT DATA TO METAFILE
         printf "%-10s %-10s %-10s %-10s %-10s %-10s %-30s %-10s %-10s\n" "$TEST" "$NUM_MPI" "$NUM_OMP" "$P1" "$P2" "$NUM_GPUS" "$GPU_NAME" "$HOST_NAME" "$NODE" >> ${METAFILE_RESULTS}
-        # echo "$TEST", "$NUM_MPI", "$NUM_OMP", "$P1", "$P2", "$NUM_GPUS", "$GPU_NAME", "$HOST_NAME", "$NODE" >> ${METAFILE_RESULTS}
     done
 done
 
