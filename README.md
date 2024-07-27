@@ -104,7 +104,17 @@ bash executable.sh
 rm -r ${SCRATCH}/*
 ```
 
-
-
 ## Single Cluster - Multi Process Job
 
+We will now run the benchmarks using the multi process method. In this case, we will use a helper file (``jobs_multi.txt`` in this case) to run the ``executable.sh`` using different specifications for the compute capability. In the previous exercise, we defined ``(Capability > 6.0)`` which tells HTC to use any GPU. We would now like to run the benchmarks on specific GPUs by specififying compute capabilities (you can read more about this on CHTC's website). From the ``jobs_multi.txt`` we can see that we have four lines, each line containing a number for the compute capability requested. When we run the ``submit_multi.sub`` submit file, Condor will read each line as an argument, which are declared within the submit file. These arguments are then used throughout the rest of the submit file, hence we can change parameters from this file using the helper file.
+
+```
+cd ${HOME}/benchmarks/
+condor_submit submit_multi.sub
+```
+
+<p align="center">
+  <img width="600" src=https://github.com/user-attachments/assets/ef3b4d33-0aec-4afd-94bc-24df3106d8df>
+</p>
+
+As seen from the screenshot above, the job is run in a single Cluster (``399983``), but with four Processes (``.0-.3``). Once all four jobs finish, you should see the metafile from each job inside your ``${STAGING}/benchmarks/`` directory.
