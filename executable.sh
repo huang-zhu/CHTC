@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 ###############################################################################################
 ### SCRIPT INFORMATION
 ###############################################################################################
@@ -37,7 +37,7 @@ GPU_NAME=${GPU_NAME// /_}
 HOST_NAME=`hostname`
 HOST_NAME=($HOST_NAME)
 HOST_NAME=${HOST_NAME#*.}
-HOST_NAME=${HOST_NAME%'.edu'*}
+HOST_NAME=${HOST_NAME%'.wisc.edu'*}
 HOST_NAME=${HOST_NAME//./_}
 DATE=$(date +%F)
 NUM_GPUS=1
@@ -70,7 +70,8 @@ METAFILE_RESULTS=${SCRATCH}/${WORKING_DIR}/results.csv
 METAFILE_RESULTS_OUTPUT="$BENCHMARK_DIR"_"$HOST_NAME"_"$NUM_GPUS"x"$GPU_NAME"_"$DATE".csv
 if [ ! -f ${METAFILE_RESULTS} ]; then
     > ${METAFILE_RESULTS}
-    echo "TEST", "NUM_MPI", "NUM_OMP", "ns/day", "hours/ns", "NGPUS", "GPU", "HOST", "NODE" >> ${METAFILE_RESULTS}
+    printf "%-10s %-10s %-10s %-10s %-10s %-10s %-30s %-10s %-10s\n" "TEST" "NUM_MPI" "NUM_OMP" "ns/day" "hours/ns" "NGPUS" "GPU" "HOST" "NODE" >> ${METAFILE_RESULTS}
+    # echo "TEST", "NUM_MPI", "NUM_OMP", "ns/day", "hours/ns", "NGPUS", "GPU", "HOST", "NODE" >> ${METAFILE_RESULTS}
 fi
 
 ### LOOP THROUGH BENCHMARK TESTS & NUMBER OF CORES
@@ -100,7 +101,8 @@ for TEST_DIR in ${WORKING_DIR}/*/; do
         P2=$(grep "Performance: " benchmark.log | awk '{print $3}')
 
         ### OUTPUT DATA TO METAFILE
-        echo "$TEST", "$NUM_MPI", "$NUM_OMP", "$P1", "$P2", "$NUM_GPUS", "$GPU_NAME", "$HOST_NAME", "$NODE" >> ${METAFILE_RESULTS}
+        printf "%-10s %-10s %-10s %-10s %-10s %-10s %-30s %-10s %-10s\n" "$TEST" "$NUM_MPI" "$NUM_OMP" "$P1" "$P2" "$NUM_GPUS" "$GPU_NAME" "$HOST_NAME" "$NODE" >> ${METAFILE_RESULTS}
+        # echo "$TEST", "$NUM_MPI", "$NUM_OMP", "$P1", "$P2", "$NUM_GPUS", "$GPU_NAME", "$HOST_NAME", "$NODE" >> ${METAFILE_RESULTS}
     done
 done
 
