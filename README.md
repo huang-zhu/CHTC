@@ -82,9 +82,18 @@ After initializing the job, we move on to the ``MAIN SCRIPT`` section. We will c
 
 We then go into every benchmark directory using a for loop, and in each of these directories, we run the ``benchmark.tpr`` file for a short time (20,000 ps). The performance of the benchmark in ``ns/day`` and ``hr/ns`` are extracted from the LOG file and then printed into the metafile. After running all the benchmarks in the for loop, we go back into the ``${SCRATCH}`` directory and rename the metafile with the new name.
 
-After running the main script, we move on to the ``FINALIZING JOB`` section. Here, we copy the outputs back into ``${STAGING}`` and we purge the ``${SCRATCH}}`` directory. We do this clean-up process because it's best practice to delete whatever we copied into the node, that way, we are not filling up the node's local disk (although Condor does periodic purges). In addition, files (not directories) that remain in ``${SCRATCH}`` are transferred back into your ``${HOME}`` directory from where you submitted the job, which can lead to clutter and even accidental overwrites of files depending on how you write your scripts. After, purging you can just close the job by exiting.
+After running the main script, we move on to the ``FINALIZING JOB`` section. Here, we copy the outputs back into ``${STAGING}`` and we purge the ``${SCRATCH}}`` directory. We do this clean-up process because it's best practice to delete whatever we copied into the node, that way, we are not filling up the node's local disk (although Condor does periodic purges). In addition, files (not directories) that remain in ``${SCRATCH}`` are transferred back into your ``${HOME}`` directory from where you submitted the job, which can lead to clutter and even accidental overwrites of files depending on how you write your scripts. After, purging you can just close the job by exiting. We can then check if the metafile exists and look at the performance recorded on the node. Remember that the name of the file will be different for you.
 ```
 exit
+ls ${STAGING}/benchmarks/
+cat ${STAGING}/benchmarks/gromacs_chtc_1xNVIDIA_GeForce_RTX_2080_Ti_2024-07-26.csv
 ```
+<p align="center">
+  <img width="800" src=https://github.com/user-attachments/assets/eb7ff0a9-c503-4474-847c-664aeca50cb0>
+</p>
+
+
+
+
 ## Single Cluster - Multi Process Job
 
