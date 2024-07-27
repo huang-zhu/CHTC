@@ -55,7 +55,17 @@ We are now ready to run the benchmarks from our ``${HOME}/benchmarks/`` director
 
 ## Single Cluster - Single Process Job
 
+Since the great majority of the time we will be running Multi Process Jobs, we will take this moment to run the Single Process Job benchmark in interactive mode to illustrate how we would go about debugging code on HTC. This is extremely important because porting code written on your workstation or on SWARM (Slurm) is a tedious process since we are moving over to Condor with the mobile filesystem. 
 
+We will start by running an interactive session from the ``${HOME}/benchmarks/`` directory. The ``-i`` on the ``condor_submit`` command below refers to "interactive".
+```
+cd ${HOME}/benchmarks/
+condor_submit -i submit_single.sub
+```
+<p align="center">
+  <img width="600" src=https://github.com/user-attachments/assets/2f59b3e8-b78c-4d79-a185-bbb39980cfff>
+
+</p>
 
 ## Single Cluster - Multi Process Job
 
