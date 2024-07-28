@@ -69,7 +69,7 @@ condor_submit -i submit_single.sub
 
 You should see something like the screenshot above. The "mobile filesystem" can be seen from ``slot3/dir_2558735`` which will be different for every Cluster/Process. We can also see from the hostname that we were assigned the ``vetsigian0001`` server. 
 
-Right now, we are inside the Docker container image. The image was built with all software compiled into ``/usr/local/``, so we can take a look at what's available. By echoing the ``$PATH``, we can see that the binaries have been exported so we can just call on them (*i.e.*, ``gmx --version``, ``gmx_mpi --version``, ``plumed help``, ``packmol --version``, ``acpype --version``, ``wham``, ``wham-2d``, etc...). Notice that both thread-MPI and MPI versions of GROMACS are available without sourcing one or the other.
+Right now, we are inside the Docker container image. The image was built with all software compiled into ``/usr/local/``, so we can take a look at what's available. By echoing the ``$PATH``, we can see that the binaries have been exported so we can just call on them (*i.e.*, ``gmx --version``, ``gmx_mpi --version``, ``plumed help``, ``packmol``, ``acpype --version``, ``wham``, ``wham-2d``, etc...). Notice that both thread-MPI and MPI versions of GROMACS are available without sourcing one or the other.
 <p align="center">
   <img width="600" src=https://github.com/user-attachments/assets/7048c5a0-da96-409a-8fe7-4216f0e2e369>
 </p>
