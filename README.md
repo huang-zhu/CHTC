@@ -80,9 +80,9 @@ In the ``INITIALIZING JOB`` section we define the basic things needed (arguments
 
 After initializing the job, we move on to the ``MAIN SCRIPT`` section. We will copy the benchmarking TPR files to our ``${WORKING_DIR}``. Directly copying files from ``${STAGING}`` into a job is *not* the appropriate way for data transfer when using Condor. Best practices consist of going into ``${STAGING}``, copying the files into a tarball (with a name unique to the Process you are running, *i.e.*, ``inputs_rep_0.tar``, ``inputs_rep_1.tar``, etc...), transferring the tarball to the job, removing the tarball from ``${STAGING}``, and then untarring to run the rest of the script. Since this is a very light and simple tutorial, I'm just copying the files, but don't do this for real workflows. A metafile (``results.csv``) that will contain the performance results of the benchmarked systems is then generated. We also define the output name for this metafile that contains unique information from this run 
 
-We then go into every benchmark directory using a for loop, and in each of these directories, we run the ``benchmark.tpr`` file for a short time (20,000 steps). The performance of the benchmark in ``ns/day`` and ``hr/ns`` are extracted from the LOG file and then printed into the metafile. After running all the benchmarks in the for loop, we go back into the ``${SCRATCH}`` directory and rename the metafile with the new name.
+We then go into every benchmark directory using a for loop, and in each of these directories, we run the ``benchmark.tpr`` file for a short time (20,000 steps). The performance of the benchmark in ``ns/day`` and ``hr/ns`` is extracted from the LOG file and then printed into the metafile. After running all the benchmarks in the for loop, we go back into the ``${SCRATCH}`` directory and rename the metafile with the new name.
 
-After running the main script, we move on to the ``FINALIZING JOB`` section. Here, we copy the outputs back into ``${STAGING}`` and we purge the ``${SCRATCH}}`` directory. We do this clean-up process because it's best practice to delete whatever we copied into the node, that way, we are not filling up the node's local disk (although Condor does periodic purges). In addition, files (not directories) that remain in ``${SCRATCH}`` are transferred back into your ``${HOME}`` directory from where you submitted the job, which can lead to clutter and even accidental overwrites of files depending on how you write your scripts. After, purging you can just close the job by exiting. We can then check if the metafile exists and look at the performance recorded on the node. Remember that the name of the file will be different for you.
+After running the main script, we move on to the ``FINALIZING JOB`` section. Here, we copy the outputs back into ``${STAGING}`` and we purge the ``${SCRATCH}}`` directory. We do this clean-up process because it's best practice to delete whatever we copied into the node, that way, we are not filling up the node's local disk (although Condor does periodic purges). In addition, files (not directories) that remain in ``${SCRATCH}`` are transferred back into your ``${HOME}`` directory from where you submitted the job, which can lead to clutter and even accidental overwrites of files depending on how you write your scripts. After purging you can just close the job by exiting. We can then check if the metafile exists and look at the performance recorded on the node. Remember that the name of the file will be different for you.
 ```
 exit
 ls ${STAGING}/benchmarks/
@@ -92,15 +92,15 @@ cat ${STAGING}/benchmarks/gromacs_chtc_1xNVIDIA_GeForce_RTX_2080_Ti_2024-07-26.c
   <img width="800" src=https://github.com/user-attachments/assets/42e864a2-e493-4caf-9b8a-60da55c3d1ca>
 </p>
 
-After running line by line, I like to comment out the purge line from the executable (``rm -r ${SCRATCH}/*``) and bash the script to replicate how Condor would run it when the job is submitted non-interactively. The commands would be the following, but I won't run them now.
+After running line by line, I like to comment out the purge line from the executable (``rm -r ${SCRATCH}/*``) and bash the script to replicate how Condor would run it when the job is submitted non-interactively. The commands would be the following, but I won't run them now (feel free to run them).
 ```
 cd ${HOME}/benchmarks/
 condor_submit -i submit_single.sub
 ### COMMENT OUT rm -r ${SCRATCH}/*
 bash executable.sh
 ### CHECK IF OUTPUTS ARE CREATED.
-##### IF CREATED, CONTINUE
-##### IF NOT CREATED, DEBUG EXECUTABLE
+###    IF CREATED, CONTINUE
+###    IF NOT CREATED, DEBUG EXECUTABLE
 rm -r ${SCRATCH}/*
 ```
 
