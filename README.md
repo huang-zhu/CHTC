@@ -126,37 +126,10 @@ Once all four jobs finish, you should see the metafile from each job inside your
 </p>
 
 Just for reference, these are the results from my run:
-```
-[huangzhu@ap2001 benchmarks]$ cat /staging/huangzhu/benchmarks/gromacs_chtc_vetsigian0001_1xNVIDIA_GeForce_RTX_2080_Ti_2024-07-27.csv
-TEST       NUM_MPI    NUM_OMP    ns/day     hours/ns   NGPUS      GPU                            HOST       NODE
-19k        1          1          298.176    0.080      1          NVIDIA_GeForce_RTX_2080_Ti     chtc       vetsigian0001
-20k        1          1          14.285     1.680      1          NVIDIA_GeForce_RTX_2080_Ti     chtc       vetsigian0001
-32k        1          1          307.240    0.078      1          NVIDIA_GeForce_RTX_2080_Ti     chtc       vetsigian0001
-70k        1          1          99.385     0.241      1          NVIDIA_GeForce_RTX_2080_Ti     chtc       vetsigian0001
-80k        1          1          32.845     0.731      1          NVIDIA_GeForce_RTX_2080_Ti     chtc       vetsigian0001
-[huangzhu@ap2001 benchmarks]$ cat /staging/huangzhu/benchmarks/gromacs_chtc_gpu2010_1xNVIDIA_A100-SXM4-80GB_2024-07-27.csv
-TEST       NUM_MPI    NUM_OMP    ns/day     hours/ns   NGPUS      GPU                            HOST       NODE
-19k        1          1          405.568    0.059      1          NVIDIA_A100-SXM4-80GB          chtc       gpu2010
-20k        1          1          16.691     1.438      1          NVIDIA_A100-SXM4-80GB          chtc       gpu2010
-32k        1          1          382.330    0.063      1          NVIDIA_A100-SXM4-80GB          chtc       gpu2010
-70k        1          1          125.220    0.192      1          NVIDIA_A100-SXM4-80GB          chtc       gpu2010
-80k        1          1          44.490     0.539      1          NVIDIA_A100-SXM4-80GB          chtc       gpu2010
-[huangzhu@ap2001 benchmarks]$ cat /staging/huangzhu/benchmarks/gromacs_chtc_gpu4000_1xNVIDIA_L40_2024-07-27.csv
-TEST       NUM_MPI    NUM_OMP    ns/day     hours/ns   NGPUS      GPU                            HOST       NODE
-19k        1          1          164.592    0.146      1          NVIDIA_L40                     chtc       gpu4000
-20k        1          1          12.044     1.993      1          NVIDIA_L40                     chtc       gpu4000
-32k        1          1          293.500    0.082      1          NVIDIA_L40                     chtc       gpu4000
-70k        1          1          75.658     0.317      1          NVIDIA_L40                     chtc       gpu4000
-80k        1          1          25.300     0.949      1          NVIDIA_L40                     chtc       gpu4000
-[huangzhu@ap2001 benchmarks]$ cat /staging/huangzhu/benchmarks/gromacs_chtc_txie-dsigpu4000_1xNVIDIA_H100_80GB_HBM3_2024-07-27.csv
-TEST       NUM_MPI    NUM_OMP    ns/day     hours/ns   NGPUS      GPU                            HOST       NODE
-19k        1          1          314.096    0.076      1          NVIDIA_H100_80GB_HBM3          chtc       txie-dsigpu4000
-20k        1          1          17.199     1.395      1          NVIDIA_H100_80GB_HBM3          chtc       txie-dsigpu4000
-32k        1          1          376.533    0.064      1          NVIDIA_H100_80GB_HBM3          chtc       txie-dsigpu4000
-70k        1          1          116.009    0.207      1          NVIDIA_H100_80GB_HBM3          chtc       txie-dsigpu4000
-80k        1          1          41.050     0.585      1          NVIDIA_H100_80GB_HBM3          chtc       txie-dsigpu4000
 
-```
+<p align="center">
+  <img width="800" src=https://github.com/user-attachments/assets/4aa3629f-a8df-4d70-b0f3-0d2c68c4b0c4>
+</p>
 
 Keep in mind that performance will be somewhat different all-around. This is due to the way that Condor is set up, specifically in terms of CPU binding. This means that the requested CPU cores may or may not be correctly pinned to maximize GROMACS performance (if you want to learn more, look into the GROMACS documentation or ask around in the group). In summary, the random assignment of CPU cores will greatly impact performance on a Proces-to-Process basis. This is something you have to consider when planning your jobs and developing workflows for HTC. Furthermore, we have to consider that HTC is best suited for high-throughput, particularly many short jobs that require few cores and that are strongly accelerated by GPUs. Running longer and/or more intensive jobs will suffer from performance degradation and wall clock times will significantly vary for each Process. This concludes the first tutorial, and you should now be able to begin writing code (or porting existing code) to run GROMACS in HTC. 
 
