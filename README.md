@@ -37,7 +37,7 @@ sed -i s/'huangzhu'/`whoami`/g ${HOME}/benchmarks/executable.sh
 ```
 
 The following files will be included and are required to run GROMACS on HTC:
-- ``README.md``: Contains this same info. You can ignore/delete it.
+- ``README.md`` Contains this same info. You can ignore/delete it.
 - ``executable.sh`` Script that will run on the assigned node. When a job is submitted, Condor basically runs ``sbatch executable.sh`` on the node (with input arguments/variables if provided).
 - ``jobs_multi.txt`` File that contains the input arguments for running multi process jobs. This is like running ``sbatch executable.sh [VAR1]``, ``sbatch executable.sh [VAR2]``, etc... for however many variables you have.
 - ``submit_multi.sub`` File that contains Condor requirements. This is analogous to the ``#SBATCH`` directives on Slurm. The ``_multi`` version reads in the rows in a helper file (``jobs_multi.txt`` in this case) as input arguments to ``executable.sh``.
